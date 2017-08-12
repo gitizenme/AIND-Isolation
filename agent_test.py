@@ -26,9 +26,9 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_any_legal_move(self):
-        best_moves = {(0, 0), (2, 0), (0, 1)}
+        best_moves = {(0,0)}
         minimax_player = game_agent.MinimaxPlayer()
-        minimax_move = minimax_player.get_move(self.game, lambda: 15)
+        minimax_move = minimax_player.get_move(self.game, lambda: 150)
         self.assertIn(minimax_move, best_moves)
 
     """Test: 2. functionality of MinimaxPlayer.minimax() 
@@ -68,9 +68,9 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_visit_every_node_as_player_1(self):
-        best_moves = {(0, 0), (2, 0), (0, 1)}
+        best_moves = {(0,0)}
         minimax_player = game_agent.MinimaxPlayer()
-        minimax_move = minimax_player.get_move(self.game, lambda: 15)
+        minimax_move = minimax_player.get_move(self.game, lambda: 150)
         self.assertIn(minimax_move, best_moves)
 
 
@@ -89,9 +89,9 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_play_game_success(self):
-        best_moves = {(0, 0), (2, 0), (0, 1)}
+        best_moves = {(0,0)}
         minimax_player = game_agent.MinimaxPlayer()
-        minimax_move = minimax_player.get_move(self.game, lambda: 15)
+        minimax_move = minimax_player.get_move(self.game, lambda: 150)
         self.assertIn(minimax_move, best_moves)
 
 
