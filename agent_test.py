@@ -95,7 +95,7 @@ class IsolationTest(unittest.TestCase):
         self.assertEqual(best_moves, minimax_move)
 
     def test_alphabeta_any_legal_move(self):
-        best_moves = (0, 0)
+        best_moves = (-1, -1)
         alphabeta_player = game_agent.AlphaBetaPlayer()
         alphabeta_move = alphabeta_player.get_move(self.game, lambda: 150)
         self.assertEqual(best_moves, alphabeta_move)
