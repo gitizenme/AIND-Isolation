@@ -26,10 +26,10 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_any_legal_move(self):
-        best_moves = {(0,0)}
+        best_moves = (0, 0)
         minimax_player = game_agent.MinimaxPlayer()
         minimax_move = minimax_player.get_move(self.game, lambda: 150)
-        self.assertIn(minimax_move, best_moves)
+        self.assertEqual(best_moves, minimax_move)
 
     """Test: 2. functionality of MinimaxPlayer.minimax() 
 
@@ -68,10 +68,10 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_visit_every_node_as_player_1(self):
-        best_moves = {(0,0)}
+        best_moves = (0, 0)
         minimax_player = game_agent.MinimaxPlayer()
         minimax_move = minimax_player.get_move(self.game, lambda: 150)
-        self.assertIn(minimax_move, best_moves)
+        self.assertEqual(best_moves, minimax_move)
 
 
     """
@@ -89,11 +89,16 @@ class IsolationTest(unittest.TestCase):
     """
 
     def test_minimax_play_game_success(self):
-        best_moves = {(0,0)}
+        best_moves = (0, 0)
         minimax_player = game_agent.MinimaxPlayer()
         minimax_move = minimax_player.get_move(self.game, lambda: 150)
-        self.assertIn(minimax_move, best_moves)
+        self.assertEqual(best_moves, minimax_move)
 
+    def test_alphabeta_any_legal_move(self):
+        best_moves = (0, 0)
+        alphabeta_player = game_agent.AlphaBetaPlayer()
+        alphabeta_move = alphabeta_player.get_move(self.game, lambda: 150)
+        self.assertEqual(best_moves, alphabeta_move)
 
 if __name__ == '__main__':
     unittest.main()
