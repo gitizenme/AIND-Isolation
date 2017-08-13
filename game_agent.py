@@ -345,7 +345,6 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
         return depth == 0 or self.terminal_test(game)
-        # return depth == 0 or self.terminal_test(game)
 
     def max_value(self, game, depth, alpha, beta):
         if self.time_left() < self.TIMER_THRESHOLD:
@@ -353,7 +352,7 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         legal_moves = game.get_legal_moves()
         if not legal_moves:
-            return self.score(game, self), (-1, -1)
+            return game.utility(self), (-1, -1)
 
         if self.cutoff_test(game, depth):
             return self.score(game, self), (-1, -1)
@@ -376,7 +375,7 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         legal_moves = game.get_legal_moves()
         if not legal_moves:
-            return self.score(game, self), (-1, -1)
+            return game.utility(self), (-1, -1)
 
         if self.cutoff_test(game, depth):
             return self.score(game, self), (-1, -1)
