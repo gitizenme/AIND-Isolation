@@ -97,7 +97,7 @@ class IsolationTest(unittest.TestCase):
     def test_alphabeta_any_legal_move(self):
         best_moves = (0, 0)
         alphabeta_player = game_agent.AlphaBetaPlayer()
-        alphabeta_move = alphabeta_player.get_move(self.game, lambda: 150)
+        alphabeta_move = alphabeta_player.get_move(self.game, lambda: 15)
         self.assertEqual(best_moves, alphabeta_move)
 
 if __name__ == '__main__':
