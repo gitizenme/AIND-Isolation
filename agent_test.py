@@ -10,6 +10,9 @@ import game_agent
 
 from importlib import reload
 
+from isolation import Board
+from sample_players import RandomPlayer, GreedyPlayer
+
 
 class IsolationTest(unittest.TestCase):
     """Unit tests for isolation agents"""
@@ -94,11 +97,17 @@ class IsolationTest(unittest.TestCase):
         minimax_move = minimax_player.get_move(self.game, lambda: 150)
         self.assertEqual(best_moves, minimax_move)
 
-    def test_alphabeta_any_legal_move(self):
-        best_moves = (0, 0)
-        alphabeta_player = game_agent.AlphaBetaPlayer()
-        alphabeta_move = alphabeta_player.get_move(self.game, lambda: 15)
-        self.assertEqual(best_moves, alphabeta_move)
+    def test_alphabeta_7(self):
+        player1 = game_agent.AlphaBetaPlayer()
+        player2 = game_agent.AlphaBetaPlayer()
+        game = Board(player1, player2)
+        game._board_state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+                             0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1,
+                             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 24];
+        winner, history, outcome = game.play()
+        print("\nWinner: {}\nOutcome: {}".format(winner, outcome))
+        print(game.to_string())
+        print("Move history:\n{!s}".format(history))
 
 if __name__ == '__main__':
     unittest.main()
