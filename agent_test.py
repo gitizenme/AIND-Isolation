@@ -101,9 +101,7 @@ class IsolationTest(unittest.TestCase):
         player1 = game_agent.AlphaBetaPlayer()
         player2 = game_agent.AlphaBetaPlayer()
         game = Board(player1, player2)
-        game._board_state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-                             0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1,
-                             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 24];
+        game.apply_move(game.get_legal_moves(player1)[0])
         winner, history, outcome = game.play()
         print("\nWinner: {}\nOutcome: {}".format(winner, outcome))
         print(game.to_string())

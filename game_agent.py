@@ -2,16 +2,168 @@
 test your agent's strength against a set of known agents using tournament.py
 and include the results in your report.
 """
+import math
 import random
 
-
-# import logging, sys
-# logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-# logging.debug('A debug message!')
 
 class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
+
+
+def compute_corner_weight(game, player):
+    """ Check if a player is in a corner and if they are add a weight factor
+    otherwise return 0
+    Higher weight values will penalize the player more for selecting a corner
+    Tried values 1, 2 & 3
+
+    Parameters
+    ----------
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+
+    :return: int
+        Weight factor if player is in a corner
+    """
+    if game.get_player_location(player) in corner_positions:
+        return 2
+    return 0
+
+
+def custom_score_1(game, player):
+    """ This heuristic combines the 2 x opponent moves with penalizing
+    the active player when selecting a corner
+
+    Note: this function should be called from within a Player instance as
+    `self.score()` -- you should not need to call this function directly.
+
+    Parameters
+    ----------
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+
+    Returns
+    -------
+    float
+        The heuristic value of the current game state to the specified player.
+    """
+    # if game.is_loser(player):
+    #     return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    # penalize by subtracting the corner weight from own moves
+    own_moves -= compute_corner_weight(game, player)
+
+    return float(own_moves - 2 * opp_moves)
+
+
+def compute_distance(game, player):
+    """ Compute the distance between the location of two players
+
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+    :return: float
+        Distance between active player and opponent.
+    """
+    player_location = game.get_player_location(player)
+    opp_location = game.get_player_location(game.get_opponent(player))
+    x_distance = (player_location[0] - opp_location[0]) ** 2
+    y_distance = (player_location[1] - opp_location[1]) ** 2
+    return math.sqrt(x_distance + y_distance)
+
+
+def custom_score_2(game, player):
+    """ This heuristic combines the 2 x opponent moves with favoring a location is is
+    farthest away from the opponents current position.
+
+    Note: this function should be called from within a Player instance as
+    `self.score()` -- you should not need to call this function directly.
+
+    Parameters
+    ----------
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+
+    Returns
+    -------
+    float
+        The heuristic value of the current game state to the specified player.
+    """
+    # if game.is_loser(player):
+    #     return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    # calc distance and add to own moves
+    distance = compute_distance(game, player)
+    return float((own_moves + distance) - 2 * opp_moves)
+
+
+def custom_score_3(game, player):
+    """ This heuristic combines the 2 x opponent moves with favoring a location is is
+    farthest away from the opponents current position and penalizing
+    the active player when selecting a corner.
+
+    Note: this function should be called from within a Player instance as
+    `self.score()` -- you should not need to call this function directly.
+
+    Parameters
+    ----------
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+
+    Returns
+    -------
+    float
+        The heuristic value of the current game state to the specified player.
+    """
+    # if game.is_loser(player):
+    #     return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    own_moves -= compute_corner_weight(game, player)
+    own_moves += compute_distance(game, player)
+
+    return float(own_moves - 2 * opp_moves)
 
 
 def custom_score(game, player):
@@ -38,81 +190,9 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    if game.is_loser(player):
-        return float("-inf")
-
-    if game.is_winner(player):
-        return float("inf")
-
-    w, h = game.width / 2., game.height / 2.
-    y, x = game.get_player_location(player)
-    return float((h - y) ** 2 + (w - x) ** 2)
-
-
-def custom_score_2(game, player):
-    """Calculate the heuristic value of a game state from the point of view
-    of the given player.
-
-    Note: this function should be called from within a Player instance as
-    `self.score()` -- you should not need to call this function directly.
-
-    Parameters
-    ----------
-    game : `isolation.Board`
-        An instance of `isolation.Board` encoding the current state of the
-        game (e.g., player locations and blocked cells).
-
-    player : object
-        A player instance in the current game (i.e., an object corresponding to
-        one of the player objects `game.__player_1__` or `game.__player_2__`.)
-
-    Returns
-    -------
-    float
-        The heuristic value of the current game state to the specified player.
-    """
-    if game.is_loser(player):
-        return float("-inf")
-
-    if game.is_winner(player):
-        return float("inf")
-
-    w, h = game.width / 2., game.height / 2.
-    y, x = game.get_player_location(player)
-    return float((h - y) ** 2 + (w - x) ** 2)
-
-
-def custom_score_3(game, player):
-    """Calculate the heuristic value of a game state from the point of view
-    of the given player.
-
-    Note: this function should be called from within a Player instance as
-    `self.score()` -- you should not need to call this function directly.
-
-    Parameters
-    ----------
-    game : `isolation.Board`
-        An instance of `isolation.Board` encoding the current state of the
-        game (e.g., player locations and blocked cells).
-
-    player : object
-        A player instance in the current game (i.e., an object corresponding to
-        one of the player objects `game.__player_1__` or `game.__player_2__`.)
-
-    Returns
-    -------
-    float
-        The heuristic value of the current game state to the specified player.
-    """
-    if game.is_loser(player):
-        return float("-inf")
-
-    if game.is_winner(player):
-        return float("inf")
-
-    w, h = game.width / 2., game.height / 2.
-    y, x = game.get_player_location(player)
-    return float((h - y) ** 2 + (w - x) ** 2)
+    # return custom_score_1(game, player)
+    # return custom_score_2(game, player)
+    return custom_score_3(game, player)
 
 
 class IsolationPlayer:
@@ -138,7 +218,8 @@ class IsolationPlayer:
         timer expires.
     """
 
-    def __init__(self, search_depth=3, score_fn=custom_score, timeout=10.):
+    # Increased timeout from 10ms to 15ms
+    def __init__(self, search_depth=3, score_fn=custom_score, timeout=15.):
         self.search_depth = search_depth
         self.score = score_fn
         self.time_left = None
@@ -324,8 +405,9 @@ class AlphaBetaPlayer(IsolationPlayer):
         """
         self.time_left = time_left
 
-        if not game.get_legal_moves():
-            return (-1, -1)
+        moves = game.get_legal_moves()
+        if not moves:
+            return -1, -1
 
         # Initialize the best move so that this function returns something
         # in case the search fails due to timeout
@@ -353,10 +435,10 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         moves = game.get_legal_moves()
 
-        if not moves:
+        if depth == 0:
             return self.score(game, self)
 
-        if depth == 0:
+        if not moves:
             return self.score(game, self)
 
         score = float('-inf')
@@ -374,10 +456,10 @@ class AlphaBetaPlayer(IsolationPlayer):
         # print("BoardState MINPlayer:\n" + game.to_string())
         moves = game.get_legal_moves()
 
-        if not moves:
+        if depth == 0:
             return self.score(game, self)
 
-        if depth == 0:
+        if not moves:
             return self.score(game, self)
 
         score = float('inf')
@@ -445,8 +527,11 @@ class AlphaBetaPlayer(IsolationPlayer):
             return self.score(game, self)
 
         best_score = float("-inf")
-        best_move = moves[0]
+        best_move = random.choice(moves)
         score = float("-inf")
+
+        global corner_positions
+        corner_positions = [(0, 0), (0, game.height - 1), (game.width - 1, 0), (game.width - 1, game.height - 1)]
 
         for move in game.get_legal_moves():
             score = max(score, self.minimize(game.forecast_move(move), depth - 1, alpha, beta))
