@@ -57,9 +57,8 @@ def custom_score_1(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # if game.is_loser(player):
-    #     return float("-inf")
 
+    # we only care about winning
     if game.is_winner(player):
         return float("inf")
 
@@ -93,8 +92,8 @@ def compute_distance(game, player):
 
 
 def custom_score_2(game, player):
-    """ This heuristic combines the 2 x opponent moves with favoring a location is is
-    farthest away from the opponents current position.
+    """ This heuristic combines the 2 x opponent moves with favoring the greatest
+    between the locations of the players.
 
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
@@ -114,9 +113,8 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # if game.is_loser(player):
-    #     return float("-inf")
 
+    # we only care about winning
     if game.is_winner(player):
         return float("inf")
 
@@ -129,9 +127,9 @@ def custom_score_2(game, player):
 
 
 def custom_score_3(game, player):
-    """ This heuristic combines the 2 x opponent moves with favoring a location is is
-    farthest away from the opponents current position and penalizing
-    the active player when selecting a corner.
+    """ This heuristic combines the 2 x opponent moves with favoring the greatest
+    between the locations of the players and applying a splinter ruler to
+    the active player when a corner is being evaluated.
 
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
@@ -151,9 +149,8 @@ def custom_score_3(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # if game.is_loser(player):
-    #     return float("-inf")
 
+    # we only care about winning
     if game.is_winner(player):
         return float("inf")
 
