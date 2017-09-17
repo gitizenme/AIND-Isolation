@@ -141,7 +141,7 @@ The competition agent can be submitted using the Udacity project assistant:
 ## Tournament Results
 
                             *************************                         
-                                 Playing Matches                              
+                                 Playing 5 Matches                              
                             *************************                         
     
      Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
@@ -158,3 +158,21 @@ The competition agent can be submitted using the Udacity project assistant:
     
     Your ID search forfeited 105.0 games while there were still legal moves available to play.
 
+
+                            *************************                         
+                                 Playing 20 Matches                              
+                            *************************                         
+    
+     Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
+                            Won | Lost   Won | Lost   Won | Lost   Won | Lost 
+        1       Random      37  |   3    37  |   3    38  |   2    40  |   0  
+        2       MM_Open     33  |   7    32  |   8    30  |  10    35  |   5  
+        3      MM_Center    35  |   5    40  |   0    34  |   6    39  |   1  
+        4     MM_Improved   27  |  13    35  |   5    30  |  10    32  |   8  
+        5       AB_Open     19  |  21    21  |  19    21  |  19    19  |  21  
+        6      AB_Center    20  |  20    19  |  21    20  |  20    18  |  22  
+        7     AB_Improved   21  |  19    19  |  21    14  |  26    16  |  24  
+    --------------------------------------------------------------------------
+               Win Rate:      68.6%        72.5%        66.8%        71.1%    
+    
+    Your ID search forfeited 402.0 games while there were still legal moves available to play.
